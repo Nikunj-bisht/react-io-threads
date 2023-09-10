@@ -1,4 +1,4 @@
-export function worker() {
+export function pdfWorker() {
   self.onmessage = function (e) {
     try {
       importScripts(
@@ -27,3 +27,37 @@ export function worker() {
     }
   };
 }
+
+export function csvReader() {
+  try {
+    self.onmessage = (mssg) => {
+      const csvFile = mssg.data;
+      let fileReader = new FileReader();
+      fileReader.readAsBinaryString(csvFile);
+      let fileObject = [],
+        csvFileHeaders = [];
+      fileReader.onload = function (ev) {
+        const rows = ev.target.result.split("/r/n");
+        for (let row = 0; row < rows.length; row++) {
+          let presentRow = rows[row].split(",");
+          let rowObject = {};
+          for (let pr = 0; pr < presentRow.length; pr++) {
+            if (row === 0) {
+              csvFileHeaders.push(presentRow[pr]);
+            } else {
+              rowObject[csvFileHeaders[pr]] = presentRow[pr];
+            }
+          }
+          fileObject.push(rowObject);
+        }
+        postMessage(JSON.stringify(fileObject));
+      };
+    };
+  } catch (error) {
+    postMessage("Error Occured");
+  }
+}
+
+
+
+
