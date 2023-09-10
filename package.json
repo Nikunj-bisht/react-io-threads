@@ -1,6 +1,6 @@
 {
   "name": "react-io-threads",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "a combination of React and threaded IO operations.",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "worker-loader": "^3.0.8"
+    "react-dom": "^18.2.0"
+    },
+  "devDependencies": {
   }
 }
